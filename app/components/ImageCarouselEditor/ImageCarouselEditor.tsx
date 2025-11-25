@@ -342,6 +342,7 @@ export const ImageCarouselEditor: React.FC = () => {
 
     // Check if any image is missing a link, banner ID, or has invalid URLs
     const hasMissingLinks = images.some(img => !img.link.trim());
+    const hasMissingCaptions = images.some(img => !img.caption.trim());
     const hasMissingBannerIds = images.some(img => !img.bannerId.trim());
     const hasDuplicateBannerIds = images.some((img, idx) => 
       images.some((otherImg, otherIdx) => 
@@ -377,7 +378,11 @@ export const ImageCarouselEditor: React.FC = () => {
       toast.error("Please ensure all image URLs are valid");
       return;
     }
-
+    if (hasMissingCaptions) {
+      toast.error("Please add captions to all images before exporting");
+      return;
+    }
+    
     const jsonOutput = JSON.stringify({ 
       type, 
       position: positionNum,
